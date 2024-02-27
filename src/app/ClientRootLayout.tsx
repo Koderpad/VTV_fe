@@ -1,11 +1,7 @@
-// This is ClientRootLayout.tsx - Client Component
 "use client";
-
 import { useRouter, usePathname } from "next/navigation";
-import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import { ReduxProvider } from "../redux/provider";
-import { RootState } from "@/redux/store";
+import { useUser } from "@/hooks/useUser";
 
 export default function ClientRootLayout({
   children,
@@ -14,16 +10,22 @@ export default function ClientRootLayout({
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { user } = useSelector((state: RootState) => state.auth); // Assuming user and roles are stored in Redux
-  const { roles }: any = user;
-  useEffect(() => {
-    const isAuthorized = checkAuth(pathname, roles || []);
-    if (!isAuthorized) {
-      router.push("/login"); // Or any other page you want to navigate to when unauthorized
-    }
-  }, [router, roles]);
+  const user = useUser();
 
-  return <ReduxProvider>{children}</ReduxProvider>;
+  const roles: string[] = user?.roles || [];
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/");
+    } else {
+      const isAuthorized = checkAuth(pathname, roles);
+      if (!isAuthorized) {
+        router.push("/login");
+      }
+    }
+  }, [router, roles, user, pathname]);
+
+  return children;
 }
 
 // Function to check access permissions

@@ -65,7 +65,7 @@ function RegisForm_fix() {
       //   formData
       // );
       const response = await axios.post(
-        "https://c564-2402-800-63b6-b977-b5fc-9cf0-b0df-d06.ngrok-free.app/api/auth/register",
+        "http://localhost:8585/api/auth/register",
         // "http://localhost:8181/api/auth/register",
         formData
       );

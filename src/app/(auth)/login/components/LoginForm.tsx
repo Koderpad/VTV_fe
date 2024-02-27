@@ -60,14 +60,12 @@ function LoginForm() {
         router.replace("/admin");
       } else if (customerDTO.roles.includes("CUSTOMER")) {
         // navigate("/home", { replace: true });
-        router.replace("/home");
+        router.replace("/");
       } else {
         // navigate(from, { replace: true });
         router.replace(from);
       }
-      // navigate(from, { replace: true });
 
-      // navigate("/user/account");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       const error = err as Error;

@@ -3,13 +3,29 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
 // import Cookies from "js-cookie";
 
+// const initialState = {
+//   user: null,
+//   token: null,
+//   isAuthenticated: false,
+//   error: "",
+// };
+
+interface CustomerDTO {
+  customerId: number;
+  username: string;
+  email: string;
+  gender: boolean;
+  fullName: string;
+  birthday: string; // Consider using Date type if needed
+  status: string; // Consider defining a more specific type for status
+  roles: string[];
+}
 const initialState = {
-  user: null,
-  token: null,
+  user: null as CustomerDTO | null, // Chỉ định rằng user có thể là kiểu CustomerDTO hoặc null
+  token: null as string | null, // Chỉ rõ kiểu cho token
   isAuthenticated: false,
   error: "",
 };
-
 const authReducer = createSlice({
   name: "auth",
   initialState,

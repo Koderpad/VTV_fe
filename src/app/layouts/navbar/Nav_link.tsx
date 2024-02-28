@@ -5,27 +5,14 @@ import { RootState } from "@/redux/store";
 import React, { useState } from "react";
 import Link from "next/link";
 
-interface CustomerDTO {
-  customerId: number;
-  username: string;
-  email: string;
-  gender: boolean;
-  fullName: string;
-  birthday: string; // You may want to use a Date type
-  status: string; // You may want to define a more specific type for status
-  roles: string[];
-}
-
 const Nav_link = React.memo(() => {
-  const [isLogin, setIsLogin] = useState(false);
-  const [user, setUser] = useState<CustomerDTO | null>(null);
-
   const auth = useSelector((state: RootState) => state.auth);
 
-  const { isAuthenticated, user: CustomerDTO } = auth;
+  const { user } = auth;
+  const isAuthenticated = auth.isAuthenticated;
 
   console.log("isAuthenticated", isAuthenticated);
-  console.log("CustomerDTO", CustomerDTO);
+  console.log("user", user);
 
   return (
     <>

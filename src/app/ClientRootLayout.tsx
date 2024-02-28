@@ -14,9 +14,14 @@ export default function ClientRootLayout({
 
   const roles: string[] = user?.roles || [];
 
+  const guestAllowedPaths = ["/", "/about", "/contact", "/services"]; // Thêm các đường dẫn cho phép tại đây
+
   useEffect(() => {
     if (!user) {
-      router.push("/");
+      if (!guestAllowedPaths.includes(pathname)) {
+        router.push("/login");
+      }
+      // router.push("/");
     } else {
       const isAuthorized = checkAuth(pathname, roles);
       if (!isAuthorized) {
@@ -30,12 +35,23 @@ export default function ClientRootLayout({
 
 // Function to check access permissions
 function checkAuth(pathname: string, roles: string[]): boolean {
-  const routePermissions: any = {
-    "/admin": ["admin"],
-    "/vendor": ["vendor", "admin"],
-    // Add more as needed
+  console.log("path name: ", pathname);
+  const routePermissions: { [role: string]: string[] } = {
+    admin: ["/admin"],
+    vendor: ["/vendor"],
+    customer: ["/"],
+    guest: [""],
   };
 
-  const requiredRoles = routePermissions[pathname] || [];
-  return roles.some((role) => requiredRoles.includes(role));
+  const roles_lowercase = roles.map((role) => role.toLowerCase());
+  console.log("Roles: ", roles_lowercase);
+
+  return roles_lowercase.some((role) => {
+    if (routePermissions[role] && routePermissions[role].includes(pathname)) {
+      console.log("Authorized role: ", role);
+      return true;
+    }
+  });
+
+  // return result;
 }

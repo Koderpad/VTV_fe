@@ -23,6 +23,9 @@ export default function ClientRootLayout({
       }
       // router.push("/");
     } else {
+      if (pathname === "/login" || pathname === "/register") {
+        router.push("/");
+      }
       const isAuthorized = checkAuth(pathname, roles);
       if (!isAuthorized) {
         router.push("/login");
